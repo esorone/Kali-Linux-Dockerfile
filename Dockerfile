@@ -1,6 +1,6 @@
 FROM kalilinux/kali-rolling:latest
 
-LABEL website="https://github.com/iphoneintosh/kali-docker"
+LABEL website="https://github.com/esorone"
 LABEL description="Kali Linux with XFCE Desktop via VNC and noVNC in browser."
 
 # Install kali packages
@@ -22,19 +22,33 @@ ENV USER root
 
 ENV VNCEXPOSE 0
 ENV VNCPORT 5900
-ENV VNCPWD changeme
+ENV VNCPWD root
 ENV VNCDISPLAY 1920x1080
 ENV VNCDEPTH 16
 
 ENV NOVNCPORT 8080
 
+# Configure SSH for password login
+RUN mkdir -p /var/run/sshd
+RUN sed -i '/PasswordAuthentication no/c\PasswordAuthentication yes' /etc/ssh/sshd_config
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+
+# Setup default user
+RUN useradd --create-home -s /bin/bash -m esorone && echo "esorone:esorone" | chpasswd && adduser esorone sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 # Install custom packages
 # TODO: You can add your own packages here
-
+RUN mkdir -p /var/run/sshd /var/log/supervisor
+RUN apt-get install openssh-server sudo -y
+RUN apt-get install supervisor -y
 RUN apt-get -y install nano
 
-# Entrypoint
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Entrypoint
+CMD ["/usr/bin/supervisord"]
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
