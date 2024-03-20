@@ -1,28 +1,40 @@
-# Kali Linux latest with useful tools by tsumarios
-FROM kalilinux/kali-rolling
+FROM kalilinux/kali-rolling:latest
 
-# Set working directory to /root
-WORKDIR /root
+LABEL website="https://github.com/iphoneintosh/kali-docker"
+LABEL description="Kali Linux with XFCE Desktop via VNC and noVNC in browser."
 
-# Update
-RUN apt -y update && DEBIAN_FRONTEND=noninteractive apt -y dist-upgrade && apt -y autoremove && apt clean
+# Install kali packages
 
-# Install common and useful tools
-RUN apt -y install curl wget git net-tools whois netcat-traditional pciutils usbutils ssh
+ARG KALI_METAPACKAGE=core
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get -y install kali-linux-${KALI_METAPACKAGE}
+RUN apt-get clean
 
-# Install useful languages
-RUN apt -y install python3-pip golang nodejs npm
+# Install kali desktop
 
-# Install Kali Linux "Top 10" metapackage and a few cybersecurity useful tools
-RUN DEBIAN_FRONTEND=noninteractive apt -y install kali-tools-top10 exploitdb man-db dirb nikto wpscan uniscan lsof apktool dex2jar ltrace strace binwalk
+ARG KALI_DESKTOP=xfce
+RUN apt-get -y install kali-desktop-${KALI_DESKTOP}
+RUN apt-get -y install tightvncserver dbus dbus-x11 novnc net-tools
 
-# Install Tor and proxychains, then configure proxychains with Tor
-RUN apt -y install tor proxychains
-COPY config/proxychains.conf /etc/proxychains.conf
+ENV USER root
 
-# Install ZSH shell with custom settings and set it as default shell
-RUN apt -y install zsh
-RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-COPY config/.zshrc .
+ENV VNCEXPOSE 0
+ENV VNCPORT 5900
+ENV VNCPWD changeme
+ENV VNCDISPLAY 1920x1080
+ENV VNCDEPTH 16
 
-ENTRYPOINT ["/bin/zsh"]
+ENV NOVNCPORT 8080
+
+# Install custom packages
+# TODO: You can add your own packages here
+
+RUN apt-get -y install nano
+
+# Entrypoint
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
