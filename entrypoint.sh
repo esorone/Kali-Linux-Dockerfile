@@ -2,9 +2,9 @@
 
 # Set password for VNC
 
-mkdir -p /esorone/.vnc/
-echo $VNCPWD | vncpasswd -f > /esorone/.vnc/passwd
-chmod 600 /esorone/.vnc/passwd
+mkdir -p /home/esorone/.vnc/
+echo $VNCPWD | vncpasswd -f > /home/esorone/.vnc/passwd
+chmod 600 /home/esorone/.vnc/passwd
 
 mkdir -p /root/.vnc/
 echo $VNCPWD | vncpasswd -f > /root/.vnc/passwd
