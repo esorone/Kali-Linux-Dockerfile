@@ -50,7 +50,7 @@ RUN apt-get -y install nano
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Entrypoint
-CMD ["/usr/bin/supervisord"]
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+#ENTRYPOINT [ "/entrypoint.sh" ]
+CMD ["/usr/bin/supervisord"]
