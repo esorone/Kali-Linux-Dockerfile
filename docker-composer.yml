@@ -1,9 +1,9 @@
 version: '3'
 services:
   esor-kali:
-    image: esor-kali-ssh-vnc:latest
+    image: kali-vnc-esorone:latest
     tty: true
-    container_name: esorone-kali-shh-vnc
+    container_name: kali-vnc-esorone
     hostname: esor-kali
     ports:
       - "2222:22"
