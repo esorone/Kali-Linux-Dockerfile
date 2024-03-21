@@ -51,5 +51,5 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-#ENTRYPOINT [ "/entrypoint.sh" ]
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT [ "/entrypoint.sh" ]
+#CMD ["/usr/bin/supervisord"]
