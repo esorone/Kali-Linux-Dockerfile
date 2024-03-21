@@ -44,6 +44,11 @@ echo "Launch your web browser and open https://192.168.2.200:9020/vnc.html"
 echo "Verify the certificate fingerprint:"
 openssl x509 -in /etc/ssl/certs/novnc_cert.pem -noout -fingerprint -sha256
 
-# Start shell
+# Start SSH
+
+sh -c /usr/sbin/sshd -D
+sh -c sudo vncserver
+
+#Start Shell
 
 /bin/bash
