@@ -8,4 +8,7 @@ services:
     ports:
       - "2222:22"
       - "5900:5900"
+      - "5901:5901"
+      - "9020:9020"
+    command: /usr/sbin/sshd -D
  
