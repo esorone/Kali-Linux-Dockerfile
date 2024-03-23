@@ -47,6 +47,7 @@ RUN apt-get install autocutsel -y
 RUN mkdir -p /var/run/sshd /var/log/supervisor
 RUN apt-get install openssh-server sudo -y
 RUN apt-get install supervisor -y
+RUN apt-get install nano -y
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
