@@ -5,12 +5,29 @@ LABEL description="Kali Linux with XFCE Desktop via VNC and noVNC in browser."
 
 # Install kali packages
 
+# Install Kali Full
+RUN rm -fR /var/lib/apt/ && \
+    apt-get clean && \
+    apt-get update -y && \
+    apt-get install -y software-properties-common kali-linux-headless --fix-missing && \
+    echo 'VERSION_CODENAME=kali-rolling' >> /etc/os-release
+
 ARG KALI_METAPACKAGE=core
 ENV DEBIAN_FRONTEND noninteractive
+ENV TERM xterm-256color
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get -y install kali-linux-${KALI_METAPACKAGE}
 RUN apt-get clean
+
+# Some system tools
+RUN apt-get install -y git colordiff colortail unzip tmux xterm zsh curl telnet strace ltrace tmate less build-essential wget python3-setuptools python3-pip zstd net-tools bash-completion iputils-tracepath  
+
+# Oh-my-git!
+RUN git clone https://github.com/arialdomartini/oh-my-git.git ~/.oh-my-git && \ 
+  echo source ~/.oh-my-git/prompt.sh >> /etc/profile
+
+# secLists!
+RUN git clone https://github.com/danielmiessler/SecLists /usr/share/seclists
 
 # Install kali desktop
 
@@ -45,6 +62,11 @@ RUN mkdir -p /var/run/sshd /var/log/supervisor
 RUN apt-get install openssh-server sudo -y
 RUN apt-get install supervisor -y
 RUN apt-get -y install nano
+
+# Update DB and clean'up!
+RUN updatedb && \
+    apt-get autoremove -y && \
+    apt-get clean 
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
