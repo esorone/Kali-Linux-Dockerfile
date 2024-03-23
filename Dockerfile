@@ -16,7 +16,14 @@ RUN apt-get clean
 
 ARG KALI_DESKTOP=xfce
 RUN apt-get -y install kali-desktop-${KALI_DESKTOP}
-RUN apt-get -y install tightvncserver dbus dbus-x11 novnc net-tools
+RUN apt-get -y install tightvncserver dbus dbus-x11 novnc
+RUN apt-get -y kali-tools-vulnerability
+RUN apt-get -y kali-tools-web
+RUN apt-get -y kali-tools-database
+RUN apt-get -y kali-tools-passwords
+RUN apt-get -y kali-tools-exploitation
+RUN apt-get -y kali-tools-social-engineering
+RUN apt-get -y kali-tools-post-exploitation
 
 ENV USER root
 
@@ -40,7 +47,10 @@ RUN useradd --create-home -s /bin/bash -m esorone && echo "esorone:esorone" | ch
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Install custom packages
-RUN apt-get install autocutsel -y
+RUN apt -y install autocutsel
+RUN apt -y install curl wget net-tools whois netcat-traditional pciutils usbutils
+RUN apt -y install python3-pip
+RUN apt -y kali-tools-top10 exploitdb man-db
 
 # TODO: You can add your own packages here
 RUN mkdir -p /var/run/sshd /var/log/supervisor
