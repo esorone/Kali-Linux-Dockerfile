@@ -1,16 +1,13 @@
 FROM kalilinux/kali-rolling:latest
 
 LABEL website="https://github.com/esorone"
-LABEL description="Kali Linux with XFCE Desktop via VNC and noVNC in browser."
+LABEL description="Kali Linux with XFCE Desktop and additional packages."
 
 # Install kali packages
 
 ARG KALI_METAPACKAGE=core
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update
-RUN apt-get -y upgrade
-RUN apt-get -y install kali-linux-${KALI_METAPACKAGE}
-RUN apt-get clean
+
 
 # Install kali desktop
 
@@ -24,6 +21,9 @@ RUN apt-get -y kali-tools-passwords
 RUN apt-get -y kali-tools-exploitation
 RUN apt-get -y kali-tools-social-engineering
 RUN apt-get -y kali-tools-post-exploitation
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get clean
 
 ENV USER root
 
