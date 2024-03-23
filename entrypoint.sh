@@ -47,7 +47,7 @@ openssl x509 -in /etc/ssl/certs/novnc_cert.pem -noout -fingerprint -sha256
 # Start SSH and extra check vnc
 
 sh -c /usr/sbin/sshd -D
-sudo vncserver -geometry 1920x1080 :1
+sh -c /start.sh
 
 #Start Shell
 
