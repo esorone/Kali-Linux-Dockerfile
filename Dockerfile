@@ -40,6 +40,8 @@ RUN useradd --create-home -s /bin/bash -m esorone && echo "esorone:esorone" | ch
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Install custom packages
+RUN apt-get install autocutsel -y
+
 # TODO: You can add your own packages here
 RUN mkdir -p /var/run/sshd /var/log/supervisor
 RUN apt-get install openssh-server sudo -y
