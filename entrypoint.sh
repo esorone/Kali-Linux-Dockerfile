@@ -47,6 +47,7 @@ openssl x509 -in /etc/ssl/certs/novnc_cert.pem -noout -fingerprint -sha256
 # Start SSH and extra check vnc
 /bin/echo "/usr/bin/autocutsel -fork &" >> ~/.vnc/xstartup
 sh -c /usr/sbin/sshd -D
+cd /
 /start.sh
 
 #Start Shell
