@@ -50,10 +50,13 @@ RUN apt-get install supervisor -y
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Entrypoint & start
+# Additional updates
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+COPY install.sh /install.sh
+RUN chmod +x /install.sh
 
+# Entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
