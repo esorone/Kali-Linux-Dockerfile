@@ -1,5 +1,5 @@
-#FROM kalilinux/kali-rolling:latest
-FROM kalilinux/kali-linux-large
+FROM kalilinux/kali-rolling:latest
+#FROM kalilinux/kali-linux-large
 
 LABEL website="https://github.com/esorone"
 LABEL description="Kali Linux with XFCE Desktop via VNC and noVNC in browser."
@@ -10,15 +10,14 @@ ARG KALI_METAPACKAGE=core
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get -y install kali-linux-${KALI_METAPACKAGE}
 RUN apt-get clean
 
 # Install kali desktop
 
-ARG KALI_DESKTOP=xfce
-RUN apt-get -y install kali-desktop-${KALI_DESKTOP}
+#ARG KALI_DESKTOP=xfce
+#RUN apt-get -y install kali-desktop-${KALI_DESKTOP}
+RUN apt-get install -y kali-linux-all && apt-get clean all
 RUN apt-get -y install tightvncserver dbus dbus-x11 novnc net-tools
-RUN apt install -y kali-tools-vulnerability
 
 ENV USER root
 
