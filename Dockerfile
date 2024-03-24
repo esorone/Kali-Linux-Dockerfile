@@ -12,7 +12,7 @@ ENV TERM xterm-256color
 RUN apt-get update -y && apt-get clean all
 RUN apt-get install -y software-properties-common && apt-get update -y && apt-get clean all
 RUN apt-get install -y git colordiff colortail unzip nano tmux xterm zsh curl && apt-get clean all
-RUN apt-get install -y kali-linux-all && apt-get clean all
+RUN apt-get install -y kali-linux-everything && apt-get clean all
 
 # Install kali desktop
 
