@@ -8,9 +8,11 @@ LABEL description="Kali Linux with XFCE Desktop via VNC and noVNC in browser."
 
 ARG KALI_METAPACKAGE=core
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update
-RUN apt-get -y upgrade
-RUN apt-get clean
+ENV TERM xterm-256color
+RUN apt-get update -y && apt-get clean all
+RUN apt-get install -y software-properties-common && apt-get update -y && apt-get clean all
+RUN apt-get install -y git colordiff colortail unzip nano tmux xterm zsh curl && apt-get clean all
+RUN apt-get install -y kali-linux-all && apt-get clean all
 
 # Install kali desktop
 
@@ -55,7 +57,10 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 COPY install.sh /install.sh
-RUN chmod +x /install.sh
+#RUN chmod +x /install.sh
+RUN chsh -s $(which zsh)
+RUN rm -f ${HOME}/.profile
+RUN su -s /bin/zsh -c '. ~/.zshrc' root
 
 # Entrypoint
 COPY entrypoint.sh /entrypoint.sh
