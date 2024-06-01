@@ -19,6 +19,7 @@ RUN apt-get install -y kali-linux-everything && apt-get clean all
 ARG KALI_DESKTOP=xfce
 RUN apt-get update -y
 RUN apt-get install kali-defaults kali-root-login desktop-base xfce4 xfce4-places-plugin xfce4-goodies
+RUN apt-get install autocutsel
 
 RUN apt-get -y install tightvncserver dbus dbus-x11 novnc net-tools
 
